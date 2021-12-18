@@ -4,21 +4,15 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func day02(aimOn bool) {
-	file, err := os.Open("data/day_02.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+type Day02 struct {
+	aimOn bool
+}
 
-	// Scanner by default splits at newline
-	scanner := bufio.NewScanner(file)
-
+func (d Day02) Solve(scanner *bufio.Scanner) {
 	var x, y, aim int
 
 	for scanner.Scan() {
@@ -33,17 +27,17 @@ func day02(aimOn bool) {
 		switch direction {
 		case "forward":
 			x += units
-			if aimOn {
+			if d.aimOn {
 				y += units * aim
 			}
 		case "up":
-			if aimOn {
+			if d.aimOn {
 				aim -= units
 			} else {
 				y -= units
 			}
 		case "down":
-			if aimOn {
+			if d.aimOn {
 				aim += units
 			} else {
 				y += units

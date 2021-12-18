@@ -4,25 +4,20 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 )
 
-func day01(sampleSize int) {
-	file, err := os.Open("data/day_01.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+type Day01 struct {
+	sampleSize int
+}
 
-	// Scanner by default splits at newline
-	scanner := bufio.NewScanner(file)
-
-	var depths = make([]int, sampleSize)
+func (d Day01) Solve(scanner *bufio.Scanner) {
+	var err error
+	var depths = make([]int, d.sampleSize)
 	var sum_a, sum_b, numIncreases, numDepths int
 
 	for scanner.Scan() {
-		i := numDepths % sampleSize
+		i := numDepths % d.sampleSize
 		depths[i], err = strconv.Atoi(scanner.Text())
 		if err != nil {
 			log.Fatal(err)
@@ -34,7 +29,7 @@ func day01(sampleSize int) {
 			sum_b += depth
 		}
 
-		if numDepths < sampleSize {
+		if numDepths < d.sampleSize {
 			numDepths++
 			continue
 		}
@@ -45,5 +40,5 @@ func day01(sampleSize int) {
 		}
 	}
 
-	fmt.Printf("The number of depth increases for a sample size of %d is: %d\n", sampleSize, numIncreases)
+	fmt.Printf("The number of depth increases for a sample size of %d is: %d\n", d.sampleSize, numIncreases)
 }
