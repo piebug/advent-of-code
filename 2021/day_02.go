@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func day02() {
+func day02(aimOn bool) {
 	file, err := os.Open("data/day_02.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -19,7 +19,7 @@ func day02() {
 	// Scanner by default splits at newline
 	scanner := bufio.NewScanner(file)
 
-	var x, y int
+	var x, y, aim int
 
 	for scanner.Scan() {
 		command := strings.Split(scanner.Text(), " ")
@@ -33,12 +33,23 @@ func day02() {
 		switch direction {
 		case "forward":
 			x += units
+			if aimOn {
+				y += units * aim
+			}
 		case "up":
-			y -= units
+			if aimOn {
+				aim -= units
+			} else {
+				y -= units
+			}
 		case "down":
-			y += units
+			if aimOn {
+				aim += units
+			} else {
+				y += units
+			}
 		}
 	}
 
-	fmt.Printf("The final position is (%d, %d) and the product is: %d", x, y, x*y)
+	fmt.Printf("The final position is (%d, %d) and the product is: %d\n", x, y, x*y)
 }
